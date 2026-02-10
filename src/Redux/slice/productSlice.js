@@ -1,4 +1,4 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice,createAsyncThunk, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchProductThunk=createAsyncThunk("productc/fetchProductThunk",async()=>{
@@ -13,7 +13,8 @@ const productSlice=createSlice({
         products:[],
         pending:false,
         error:"",
-        products2:[]
+        products2:[],
+        currentPage:1
     },
     reducers:{
         searchProduct:(state,payload)=>{
@@ -25,6 +26,12 @@ const productSlice=createSlice({
                 state.products=state.products2
             }
             
+        },
+        nextPage:(state)=>{
+            state.currentPage++
+        },
+        prevPage:(state)=>{
+            state.currentPage--
         }
     },
     extraReducers:(builder)=>{
@@ -49,4 +56,4 @@ const productSlice=createSlice({
 })
 
 export default productSlice.reducer
-export const {searchProduct}=productSlice.actions
+export const {searchProduct,nextPage,prevPage}=productSlice.actions

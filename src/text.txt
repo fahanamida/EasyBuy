@@ -1,0 +1,39 @@
+Current Page=1
+Products Per Page=10
+products[]=>0-29
+
+start=0
+end=0
+
+products.slice(0,10)
+
+endIndex=Current Page*Products Per Page=10
+startIndex=endIndex-Products Per Page=0
+
+-------------------------------------------
+
+Current Page=2
+Products Per Page=10
+products[]=>0-29
+
+start=10
+end=19
+
+products.slice(10,20)
+
+endIndex=Current Page*Products Per Page=20
+startIndex=endIndex-Products Per Page=10
+
+------------------------------------------
+
+Current Page=3
+Products Per Page=10
+products[]=>0-29
+
+start=20
+end=29
+
+products.slice(20,30)
+
+endIndex=Current Page*Products Per Page=30
+startIndex=endIndex-Products Per Page=20

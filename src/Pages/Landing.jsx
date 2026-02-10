@@ -1,23 +1,36 @@
 import React ,{useEffect} from "react";
 import { Link } from "react-router-dom";
-import { fetchProductThunk } from "../Redux/slice/productSlice";
+import { fetchProductThunk ,nextPage,prevPage} from "../Redux/slice/productSlice";
 import { useDispatch,useSelector } from "react-redux";
 import { addToWishlist } from "../Redux/slice/wishlistSlice";
 import { addToCart } from "../Redux/slice/cartSlice";
 
+
 function Landing() {
-
-  
-
   const dispatch=useDispatch()
 
-  const {products,pending,error}=useSelector((state)=>state.productReducer)
+  const {products,pending,error,currentPage}=useSelector((state)=>state.productReducer)
   // console.log(gstate)
 
+  const productsPerPage=10
+  const totalPages=(products?.length)/productsPerPage
   useEffect(()=>{
     dispatch(fetchProductThunk())
   },[])
 
+  const nextPageNavigation=()=>{
+    if(currentPage<totalPages){
+      dispatch(nextPage())
+    }
+  }
+  const prevPageNavigation=()=>{
+    if(currentPage>1){
+      dispatch(prevPage())
+    }
+  }
+
+  const endIndex=currentPage*productsPerPage
+  const startIndex=endIndex-productsPerPage
   return (
     <>
       {/* Hero Section */}
@@ -48,7 +61,7 @@ function Landing() {
                 :
                 <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                   {
-                    products.map(item=>(
+                    products.slice(startIndex,endIndex).map(item=>(
                       <div className="col mb-5">
                         <div className="card h-100 card shadow rounded-8 ">
                           <Link to={`/details/${item.id}`}>
@@ -81,11 +94,11 @@ function Landing() {
       <div className="my-3 d-flex justify-content-center">
          <div className="d-flex gap-3 align-items-center">
              <button className="btn">
-              <i className="fa-solid fa-angles-left"></i>
+              <i className="fa-solid fa-angles-left" onClick={prevPageNavigation}></i>
               </button>
-            <span>1/10</span>
+            <span>{currentPage}/{totalPages}</span>
           <button className="btn">
-            <i className="fa-solid fa-angles-right"></i>
+            <i className="fa-solid fa-angles-right" onClick={nextPageNavigation}></i>
             </button> 
          </div>
       </div>
